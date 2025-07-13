@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Authentication</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+     }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto',sans-serif;
+      background-color: #FAF6E9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background-color:white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border 0.3s ease;
+    }
+
+    input:focus {
+      border-color: grey;
+      outline: none;
+    }
+
+    button {
+      width: 50%;
+      padding: 12px;
+      margin-top: 15px;
+      background-color: #7886C7;;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #A9B5DF;
+    }
+
+    
+
+    #securePage {
+      display: none;
+    }
+
+    #loggedUser {
+      font-weight: bold;
+      color: #2193b0;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="authContainer">
+    <h2>Register or Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="SignUp()">Sign Up</button>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div class="container" id="securePage">
+    <h2>Welcome to thePage!</h2>
+    <p>You are logged in as <span id="loggedUser"></span>.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function SignUp() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        if (localStorage.getItem(username)) {
+          alert("User already exists!");
+        } else {
+          localStorage.setItem(username, password);
+          alert("Registered successfully!");
+        }
+      } else {
+        alert("Please fill all fields.");
+      }
+    }
+
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const storedPassword = localStorage.getItem(username);
+
+      if (storedPassword && storedPassword === password) {
+        document.getElementById('authContainer').style.display = 'none';
+        document.getElementById('securePage').style.display = 'block';
+        document.getElementById('loggedUser').innerText = username;
+      } else {
+        alert("Invalid credentials!");
+      }
+    }
+
+    function logout() {
+      document.getElementById('authContainer').style.display = 'block';
+      document.getElementById('securePage').style.display = 'none';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+  </script>
+</body>
+</html>
